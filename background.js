@@ -32,8 +32,13 @@ var PriceFilterUtils = (function() {
         fakeField.attr('title',realField.val() + " б.р.");
     }
 
+    function removeAllButNumber(text) {
+        return text.replace (/[^\d]/g, "");
+    }
+
     return {
-        updateFakeField: updateFakeField
+        updateFakeField: updateFakeField,
+        removeAllButNumber: removeAllButNumber
     };
 
 })();
@@ -54,6 +59,9 @@ function removeTextFromElement(jqNode) {
 }
 
 function convertToUSD(belPrice) {
+    if(typeof belPrice === 'undefined') {
+        return belPrice;
+    }
     belPrice = belPrice.replace(/\s/g, '');
     return Math.round(((belPrice / current_exchange_rate)));
 }
@@ -96,9 +104,9 @@ modifyItemNodes();
 
 
 function modifyPriceNodeImpl(jqNode) {
-
-    jqNode.text('ot 1 666 666 р.б.');
-
+    var blrPrice = jqNode.text();
+    jqNode.attr('title', blrPrice);
+    jqNode.text(convertToUSD(PriceFilterUtils.removeAllButNumber(blrPrice)) + ' USD');
 }
 //$('td[class="price"]')
 /*
@@ -131,7 +139,7 @@ ObserverUtils.createStyleAttrObserver(priceSliderRight, function(mutation){
 });
 
 $('label[for="2140131888"]').text("Цена (USD):");
-var jPriceFromField = $('#2140131888');
+var jPriceFromField = $($('.filter_currency').parent().find('table[class="fields"]').find('td[class="field"]')[0]).find('input');//$('#2140131888');
 jPriceFromField.css({"display":"none"});
 
 var jPriceFromFieldFake = $('\<input type="text" readonly/>');
@@ -142,7 +150,7 @@ if(jPriceFromField.val() !== "") {
     PriceFilterUtils.updateFakeField(jPriceFromFieldFake, jPriceFromField);
 }
 
-var jPriceToField = $('#2140131887');
+var jPriceToField = $($('.filter_currency').parent().find('table[class="fields"]').find('td[class="field"]')[1]).find('input');//$('#2140131887');
 jPriceToField.css({"display":"none"});
 
 var jPriceToFieldFake = $('\<input type="text" readonly/>');
@@ -152,6 +160,19 @@ jPriceToField.after(jPriceToFieldFake);
 if(jPriceToField.val() !== "") {
     PriceFilterUtils.updateFakeField(jPriceToFieldFake, jPriceToField);
 }
+
+
+////
+
+$($('div[class="item_summary"]').find('.price').find('.in')[0]).find('p').each(function(){
+    var text = $(this).text();
+    var numbers = text.split('до');
+    var fromPrice = convertToUSD(PriceFilterUtils.removeAllButNumber(numbers[0]));
+    var toPrice = convertToUSD(PriceFilterUtils.removeAllButNumber(numbers[1]));
+    var result = 'от ' + fromPrice + ' до ' + toPrice + ' USD';
+    $(this).attr('title', text);
+    $(this).text(result);
+});
 
 
 

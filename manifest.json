@@ -5,7 +5,7 @@
   "description": "Convert bel prices",
   "background": "background.html",
   "content_scripts": [ {
-    "js": [ "jquery-2.1.0.min.js", "arrive.js", "jquery-ui.js", "background.js" ],
+    "js": [ "jquery-2.1.0.min.js", "arrive.js", "background.js" ],
     "matches": [ "http://kupi.tut.by/*", "https://kupi.tut.by/*"]
   }],
   "icons":
