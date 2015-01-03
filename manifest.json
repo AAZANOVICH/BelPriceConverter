@@ -1,14 +1,14 @@
 {
   "manifest_version":2,
   "name": "BEL PRICE CONVERTER",
-  "version": "0.1.0",
-  "description": "Convert bel prices to USD",
+  "version": "0.9.1",
+  "description": "Конвертирует цены из белорусских рублей в у.е. по заданному курсу",
   "background":{
     "scripts":["eventPage.js"],
-    "persistent":true
+    "persistent":false
   },
   "content_scripts": [ {
-    "js": [ "jquery-2.1.0.min.js", "arrive.js", "background.js" ],
+    "js": [ "jquery-2.1.0.min.js", "arrive.js", "KupiTutByPlugin.js", "priceConverter_cs.js" ],
     "matches": [ "http://kupi.tut.by/*", "https://kupi.tut.by/*"]
   }],
 
