@@ -100,7 +100,12 @@ function KupiTutByPlugin(current_exchange_rate) {
         }
 
         function modifyPriceNodeWithPrefixImpl(jqNode, prefix) {
+
             var blrPrice = jqNode.text();
+            // if already modified -> skip
+            if(blrPrice.indexOf('у') > 0) {
+                return;
+            }
             jqNode.attr('title', blrPrice);
             jqNode.text(prefix + PriceFilterUtils.convertToUSD(PriceFilterUtils.removeAllButNumber(blrPrice)) + ' у.е.');
         }
@@ -125,11 +130,12 @@ function KupiTutByPlugin(current_exchange_rate) {
             modifyPriceNodeWithPrefixImpl($(this), 'от ');
         });
 
-        $('div[class="cItems_row"').find('big[class="prop_price"]').each(function () {
+        var cItems_rowField = $('div[class="cItems_row"]');
+        cItems_rowField.find('big[class="prop_price"]').each(function () {
             modifyPriceNodeImpl($(this));
         });
 
-        $('div[class="cItems_row"]').find('div[class="price"]').each(function () {
+        cItems_rowField.find('div[class="price"]').each(function () {
             modifyPriceNodeWithPrefixImpl($(this), 'от ');
         });
 
