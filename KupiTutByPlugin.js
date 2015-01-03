@@ -129,6 +129,9 @@ function KupiTutByPlugin(current_exchange_rate) {
             modifyPriceNodeImpl($(this));
         });
 
+        $('div[class="cItems_row"]').find('div[class="price"]').each(function () {
+            modifyPriceNodeWithPrefixImpl($(this), 'от ');
+        });
 
         var filterCurrencyField = $('.filter_currency');
         var noUiBase = filterCurrencyField.parent().find('.wrapper_slider').find('.noUi-base');
