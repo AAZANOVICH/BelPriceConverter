@@ -13,7 +13,7 @@ chrome.storage.sync.get("exchangeRate", function(items) {
     if (typeof items.exchangeRate !== "undefined" || items.exchangeRate.trim() != '') {
         current_exchange_rate = items.exchangeRate;
     } else {
-        current_exchange_rate = 14500;
+        current_exchange_rate = 14000;
     }
     start();
 });
@@ -71,14 +71,8 @@ var PriceFilterUtils = (function() {
 })();
 
 function start() {
-    ///////////////
 
     var priceList = $(".itemList");
-
-
-    $.fn.exists = function () {
-        return this.length !== 0;
-    }
 
     function removeTextFromElement(jqNode) {
         jqNode.contents().filter(function(){
@@ -98,7 +92,7 @@ function start() {
             var innerHtml = context.innerHTML;
             $(this).attr('title', innerHtml + ' б.р.');
             var belPrice = innerHtml;
-            context.innerHTML = (PriceFilterUtils.convertToUSD(belPrice) + " USD");
+            context.innerHTML = (PriceFilterUtils.convertToUSD(belPrice) + " у.е.");
             if(!(index % 2)) {
                 context.innerHTML += " - ";
             }
@@ -119,13 +113,12 @@ function start() {
 
     modifyItemNodes();
 
-///
 
 
     function modifyPriceNodeImpl(jqNode) {
         var blrPrice = jqNode.text();
         jqNode.attr('title', blrPrice);
-        jqNode.text(PriceFilterUtils.convertToUSD(PriceFilterUtils.removeAllButNumber(blrPrice)) + ' USD');
+        jqNode.text(PriceFilterUtils.convertToUSD(PriceFilterUtils.removeAllButNumber(blrPrice)) + ' у.е.');
     }
 
     $('td[class="price"]').each(function(){
@@ -139,7 +132,8 @@ function start() {
 
 ////////////////
 
-    var noUiBase =  $('.filter_currency').parent().find('.wrapper_slider').find('.noUi-base');
+    var filterCurrencyField = $('.filter_currency');
+    var noUiBase =  filterCurrencyField.parent().find('.wrapper_slider').find('.noUi-base');
     var priceSliderLeft = noUiBase.children()[0];
     var priceSliderRight = noUiBase.children()[1];
 
@@ -151,8 +145,8 @@ function start() {
         PriceFilterUtils.updateFakeField(jPriceToFieldFake, jPriceToField);
     });
 
-    $('label[for="2140131888"]').text("Цена (USD):");
-    var jPriceFromField = $($('.filter_currency').parent().find('table[class="fields"]').find('td[class="field"]')[0]).find('input');//$('#2140131888');
+    $('div[class="filter_currency"]').parent().find('#brandTitle').find('label').text("Цена (у.е.):");
+    var jPriceFromField = $(filterCurrencyField.parent().find('table[class="fields"]').find('td[class="field"]')[0]).find('input');
     jPriceFromField.css({"display":"none"});
 
     var jPriceFromFieldFake = $('\<input type="text" readonly/>');
@@ -163,7 +157,7 @@ function start() {
         PriceFilterUtils.updateFakeField(jPriceFromFieldFake, jPriceFromField);
     }
 
-    var jPriceToField = $($('.filter_currency').parent().find('table[class="fields"]').find('td[class="field"]')[1]).find('input');//$('#2140131887');
+    var jPriceToField = $(filterCurrencyField.parent().find('table[class="fields"]').find('td[class="field"]')[1]).find('input');
     jPriceToField.css({"display":"none"});
 
     var jPriceToFieldFake = $('\<input type="text" readonly/>');
@@ -182,7 +176,7 @@ function start() {
         var numbers = text.split('до');
         var fromPrice = PriceFilterUtils.convertToUSD(PriceFilterUtils.removeAllButNumber(numbers[0]));
         var toPrice = PriceFilterUtils.convertToUSD(PriceFilterUtils.removeAllButNumber(numbers[1]));
-        var result = 'от ' + fromPrice + ' до ' + toPrice + ' USD';
+        var result = 'от ' + fromPrice + ' до ' + toPrice + ' у.е.';
         $(this).attr('title', text);
         $(this).text(result);
     });

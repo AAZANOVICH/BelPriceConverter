@@ -1,9 +1,3 @@
-/**********************************************************************
-*  Copyright (C) 2014 by a.azanovich@gmail.com
-*  All rights reserved.
-*
-**********************************************************************/
-
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action == "show") {

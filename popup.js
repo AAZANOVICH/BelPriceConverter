@@ -1,9 +1,3 @@
-/**********************************************************************
-*  Copyright (C) 2014 by a.azanovich@gmail.com
-*  All rights reserved.
-*
-**********************************************************************/
-
 $(function () {
 
     var exchangeRateField = $("#exchangeRate");
@@ -40,13 +34,30 @@ $(function () {
         });
     }
 
+    function validateExchangeRateField() {
+        var exchangeRateValue = exchangeRateField.val();
+        if(exchangeRateValue.trim() == '' || exchangeRateValue == 0) {
+            exchangeRateField.css('background-color','pink');
+            exchangeRateField.attr('title','Введите значение больше 0');
+            return false;
+        } else {
+            exchangeRateField.css('background-color','white');
+            exchangeRateField.attr('title', '');
+            return true;
+        }
+    }
+
     $('#saveBtn').click(function () {
+        if(validateExchangeRateField()) {
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            var exchangeRateValue = exchangeRateField.val();
-            saveExchangeRate(exchangeRateValue);
-            chrome.tabs.sendMessage(tabs[0].id, { exchangeRate: exchangeRateValue });
-            window.close();
+
+                var exchangeRateValue = exchangeRateField.val();
+                saveExchangeRate(exchangeRateValue);
+                chrome.tabs.sendMessage(tabs[0].id, { exchangeRate: exchangeRateValue });
+                window.close();
+
         });
+        }
     });
 
 });
