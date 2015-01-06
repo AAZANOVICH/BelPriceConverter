@@ -1,9 +1,12 @@
 $(function () {
 
+    var allowedKeyCodes = [46, 8, 37, 39];
+
     var exchangeRateField = $("#exchangeRate");
 
     exchangeRateField.on('keydown',function(event) {
-        if ( event.keyCode == 46 || event.keyCode == 8 ) {
+
+        if ($.inArray(event.keyCode,allowedKeyCodes) > -1) {
             // let it happen, don't do anything
         }
         else {
