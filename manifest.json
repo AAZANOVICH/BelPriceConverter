@@ -1,7 +1,7 @@
 {
   "manifest_version":2,
   "name": "BEL PRICE CONVERTER",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "Конвертирует цены из белорусских рублей в у.е. по заданному курсу",
   "background":{
     "scripts":["eventPage.js"],
@@ -9,7 +9,7 @@
   },
   "content_scripts": [ {
     "js": [ "jquery-2.1.0.min.js", "arrive.js", "KupiTutByPlugin.js", "priceConverter_cs.js" ],
-    "matches": [ "http://kupi.tut.by/*", "https://kupi.tut.by/*"]
+    "matches": [ "http://*.kupi.tut.by/*", "https://*.kupi.tut.by/*"]
   }],
 
   "page_action": {
@@ -25,8 +25,8 @@
 
   "permissions":[
     "tabs",
-    "http://kupi.tut.by/*",
-    "https://kupi.tut.by/*",
+    "http://*.kupi.tut.by/*",
+    "https://*.kupi.tut.by/*",
     "storage"
   ]
 }
