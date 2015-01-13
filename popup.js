@@ -24,7 +24,7 @@ $(function () {
     chrome.storage.sync.get("exchangeRate", function(items) {
         var exchangeRate =  items.exchangeRate;
         var exchangeRateField = $("#exchangeRate");
-        if (typeof exchangeRate === "undefined" || exchangeRate.trim() == '') {
+        if (typeof exchangeRate === "undefined" /*|| exchangeRate.trim() == ''*/) {
             exchangeRate = "14000";
         }
         exchangeRateField.val(exchangeRate);
@@ -71,6 +71,12 @@ $(function () {
 
         });
         }
+    });
+    //chrome.tabs.create({url: "options.html"});
+    //$('#optionsCell').append('\<a href="javascript:void(0);" style="font-size: xx-small;" id="">Настройки</a>');
+
+    $('#optionsBtn').on('click', function(){
+        chrome.tabs.create({url: "options.html"});
     });
 
     var informerUrl = 'http://www.ecopress.by/cgi/informer.php?nb=USD,EUR,RUB&vb=USD,EUR,RUB&b=USD,EUR,RUB&inf=f0f8ff&bgc=ffffff&hbgc=cacaff&txtc=000000&htxtc=000000&border=000000&iborder=000000&numc=000000&datec=000080&copyc=000080&plusc=006600&minusc=ff0000&is_b=1&is_ib=1&l=160&random=' + makeId();

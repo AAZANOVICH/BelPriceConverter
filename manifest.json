@@ -1,17 +1,19 @@
 {
   "manifest_version":2,
   "name": "BEL PRICE CONVERTER",
-  "version": "0.9.7",
+  "version": "0.9.9",
   "description": "Конвертирует цены из белорусских рублей в у.е. по заданному курсу",
   "background":{
     "scripts":["eventPage.js"],
     "persistent":false
   },
   "content_scripts": [ {
-    "js": [ "jquery-2.1.0.min.js", "arrive.js", "KupiTutByPlugin.js", "priceConverter_cs.js" ],
-    "matches": [ "http://*.kupi.tut.by/*", "https://*.kupi.tut.by/*"]
-  }],
 
+    "js": [ "jquery-2.1.0.min.js", "arrive.js", "KupiTutByPlugin.js", "priceConverter_cs.js" ],
+    "matches": [ "http://*.kupi.tut.by/*", "https://*.kupi.tut.by/*"],
+    "run_at":"document_start"
+  }],
+  "options_page": "options.html",
   "page_action": {
     "default_icon":"coin-us-dollar-icon.png",
     "default_title":"BEL PRICE CONVERTER",

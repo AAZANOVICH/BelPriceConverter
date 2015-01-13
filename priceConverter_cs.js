@@ -7,18 +7,19 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 
 
-chrome.storage.sync.get("exchangeRate", function(items) {
+chrome.storage.sync.get(["exchangeRate", "tutByConverter"], function(items) {
     var currentExchangeRate;
-    if (typeof items.exchangeRate !== "undefined" || items.exchangeRate.trim() != '') {
+    if (typeof items.exchangeRate !== "undefined") {
         currentExchangeRate = items.exchangeRate;
     } else {
         currentExchangeRate = 14000;
     }
-    start(currentExchangeRate);
+
+    start(currentExchangeRate, {"tutByConverter": items.tutByConverter});
 });
 
-function start(currentExchangeRate) {
-   new KupiTutByPlugin(currentExchangeRate).run();
+function start(currentExchangeRate, settings) {
+   new KupiTutByPlugin(currentExchangeRate, settings).run();
 }
 
 
