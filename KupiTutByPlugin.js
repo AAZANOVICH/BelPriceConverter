@@ -38,9 +38,19 @@ function KupiTutByPlugin(current_exchange_rate, settings) {
             return Math.round(((belPrice / removeAllButNumber(current_exchange_rate))));
         }
 
+        function registerTooltip(jqNode, tooltipText){
+            jqNode.attr('title', tooltipText);
+            jqNode.addClass('tooltip-marker');
+        }
+
+        function turnOnTooltipster() {
+            $('.tooltip-marker').tooltipster();
+        }
+
+
         function updateFakeField(fakeField, realField) {
             fakeField.val(convertToUSD(realField.val()));
-            fakeField.attr('title', realField.val() + " б.р.");
+            registerTooltip(fakeField, realField.val() + " б.р.");
         }
 
         function removeAllButNumber(text) {
@@ -50,7 +60,9 @@ function KupiTutByPlugin(current_exchange_rate, settings) {
         return {
             updateFakeField: updateFakeField,
             removeAllButNumber: removeAllButNumber,
-            convertToUSD: convertToUSD
+            convertToUSD: convertToUSD,
+            registerTooltip:registerTooltip,
+            turnOnTooltipster:turnOnTooltipster
         };
 
     })();
@@ -64,20 +76,8 @@ function KupiTutByPlugin(current_exchange_rate, settings) {
             }
         });
 
-        /*$(document).arrive('div.convert_wrapper',function() {
-            var that = $(this);
-            chrome.storage.sync.get("tutByConverter", function(items) {
-                var tutByConverterProp  = items.tutByConverter;
-                if (typeof tutByConverterProp === "undefined") {
-                    tutByConverterProp = 'false';
-                }
-                if(tutByConverterProp) {
-                    that.remove();
-                }
-            });
-        });
-*/
         $(document).ready(function() {
+
             var priceList = $(".itemList");
 
             function removeTextFromElement(jqNode) {
@@ -96,7 +96,7 @@ function KupiTutByPlugin(current_exchange_rate, settings) {
 
                     var context = $(this).children().context;
                     var innerHtml = context.innerHTML;
-                    $(this).attr('title', innerHtml + ' б.р.');
+                    PriceFilterUtils.registerTooltip($(this), innerHtml + ' б.р.');
                     var belPrice = innerHtml;
                     context.innerHTML = (PriceFilterUtils.convertToUSD(belPrice) + " у.е.");
                     if (!(index % 2) && propPrice.length > 1) {
@@ -130,7 +130,7 @@ function KupiTutByPlugin(current_exchange_rate, settings) {
                 if(blrPrice.indexOf('у') > 0) {
                     return;
                 }
-                jqNode.attr('title', blrPrice);
+                PriceFilterUtils.registerTooltip(jqNode,blrPrice);
                 jqNode.text(prefix + PriceFilterUtils.convertToUSD(PriceFilterUtils.removeAllButNumber(blrPrice)) + ' у.е.');
             }
 
@@ -207,9 +207,12 @@ function KupiTutByPlugin(current_exchange_rate, settings) {
                 var fromPrice = PriceFilterUtils.convertToUSD(PriceFilterUtils.removeAllButNumber(numbers[0]));
                 var toPrice = PriceFilterUtils.convertToUSD(PriceFilterUtils.removeAllButNumber(numbers[1]));
                 var result = 'от ' + fromPrice + ' до ' + toPrice + ' у.е.';
-                $(this).attr('title', text);
+                PriceFilterUtils.registerTooltip($(this),text);
                 $(this).text(result);
             });
+
+            PriceFilterUtils.turnOnTooltipster();
+
         });
     }
 
