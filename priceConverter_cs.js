@@ -15,10 +15,20 @@ chrome.storage.sync.get(["exchangeRate", "tutByConverter"], function(items) {
         currentExchangeRate = 14000;
     }
 
-    start(currentExchangeRate, {"tutByConverter": items.tutByConverter});
+    if(window.location.host == "r.onliner.by") {
+        startOnlinerCatalogPlugin(currentExchangeRate, {});
+    } else {
+        startTutByCatalogPlugin(currentExchangeRate, {"tutByConverter": items.tutByConverter});
+    }
+
 });
 
-function start(currentExchangeRate, settings) {
+function startOnlinerCatalogPlugin(currentExchangeRate, settings) {
+    new RentOnlinerPlugin(currentExchangeRate, settings).run();
+}
+
+
+function startTutByCatalogPlugin(currentExchangeRate, settings) {
    new KupiTutByPlugin(currentExchangeRate, settings).run();
 }
 
