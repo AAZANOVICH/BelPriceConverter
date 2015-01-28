@@ -1,7 +1,7 @@
 {
   "manifest_version":2,
   "name": "BEL PRICE CONVERTER",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Конвертирует цены из белорусских рублей в у.е. по заданному курсу",
   "background":{
     "scripts":["eventPage.js"],

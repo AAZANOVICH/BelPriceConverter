@@ -171,6 +171,41 @@ function CatalogOnlinerPlugin(current_exchange_rate, settings) {
             jqNode.tooltipster();
         }
 
+        function convertCatalogPriceForLaptops(jNode) {
+            var value = jNode.text();
+            var arr = value.split('руб.');
+
+            var children = jNode.children();
+            var source  = arr[0] + 'руб.';
+
+            // if price range
+            if(source.indexOf('-') > 0) {
+                var arr = source.split('-');
+                var originalFromPrice = arr[0].trim();
+                var convertedFromPrice = convertToUSD(originalFromPrice);
+
+                var originalToPrice = arr[1].trim().split('руб.')[0];
+                var convertedToPrice = convertToUSD(originalToPrice);
+
+                jNode.text(convertedFromPrice + ' - ' + convertedToPrice + ' у.е.');
+                var tooltipText = originalFromPrice + ' - ' + originalToPrice + ' б.р.';
+                tooltipText = replaceAll('руб.','',tooltipText);
+                registerTooltip(jNode, tooltipText);
+            } else {
+                var originalPrice = source.trim().split('руб.')[0];
+                var convertedPrice = convertToUSD(originalPrice);
+                jNode.text(convertedPrice + 'у.е.');
+                var tooltipText = originalPrice + ' б.р.';
+                tooltipText = replaceAll('руб.','',tooltipText);
+                registerTooltip(jNode, tooltipText);
+            }
+
+            $.each(children,function(){
+                jNode.append($(this));
+            });
+
+        }
+
         return {
             updateFakeField: updateFakeField,
             removeAllButNumber: removeAllButNumber,
@@ -183,7 +218,8 @@ function CatalogOnlinerPlugin(current_exchange_rate, settings) {
             convertToByrAndFormat:convertToByrAndFormat,
             convertProductDetailsPrice:convertProductDetailsPrice,
             convertCurrencyPrimary:convertCurrencyPrimary,
-            convertInsItemPrice:convertInsItemPrice
+            convertInsItemPrice:convertInsItemPrice,
+            convertCatalogPriceForLaptops:convertCatalogPriceForLaptops
         };
 
     })();
@@ -254,6 +290,13 @@ function CatalogOnlinerPlugin(current_exchange_rate, settings) {
             $('div.pprice').each(function(){
                 PriceFilterUtils.convertCatalogPrice($(this));
             });
+
+            if(window.location.href.indexOf('catalog.onliner.by/notebook') > 0) {
+                $('td.pprice').each(function(){
+                    PriceFilterUtils.convertCatalogPriceForLaptops($(this));
+                });
+            }
+
 
             $('.pgprice').find('a').each(function(){
                 PriceFilterUtils.convertCatalogPrice($(this));
