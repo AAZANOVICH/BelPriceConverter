@@ -1,7 +1,7 @@
 {
   "manifest_version":2,
   "name": "BEL PRICE CONVERTER",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Конвертирует цены из белорусских рублей в у.е. по заданному курсу",
   "background":{
     "scripts":["eventPage.js"],
@@ -9,12 +9,14 @@
   },
   "content_scripts": [ {
 
-    "js": [ "jquery-2.1.0.min.js","jquery.tooltipster.min.js", "arrive.js","Utils.js", "KupiTutByPlugin.js","RentOnlinerPlugin.js", "priceConverter_cs.js" ],
+    "js": [ "jquery-2.1.0.min.js","jquery.tooltipster.min.js", "arrive.js","Utils.js", "KupiTutByPlugin.js","RentOnlinerPlugin.js","CatalogOnlinerPlugin.js", "priceConverter_cs.js" ],
     "css": [ "tooltipster.css"],
-    "matches": [ "http://*.kupi.tut.by/*", "https://*.kupi.tut.by/*", "http://*.onliner.by/*",
-      "https://*.onliner.by/*"],
+    "matches": [ "http://*.kupi.tut.by/*", "https://*.kupi.tut.by/*", "http://r.onliner.by/*",
+      "https://r.onliner.by/*","http://catalog.onliner.by/*",
+      "https://catalog.onliner.by/*"],
     "run_at":"document_start"
   }],
+
   "options_page": "options.html",
   "page_action": {
     "default_icon":"coin-us-dollar-icon.png",
@@ -31,8 +33,10 @@
     "tabs",
     "http://*.kupi.tut.by/*",
     "https://*.kupi.tut.by/*",
-    "http://*.onliner.by/*",
-    "https://*.onliner.by/*",
+    "http://r.onliner.by/*",
+    "https://r.onliner.by/*",
+    "http://catalog.onliner.by/*",
+    "https://catalog.onliner.by/*",
     "storage"
   ]
 }

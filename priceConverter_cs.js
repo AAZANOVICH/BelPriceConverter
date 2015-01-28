@@ -16,6 +16,8 @@ chrome.storage.sync.get(["exchangeRate", "tutByConverter"], function(items) {
     }
 
     if(window.location.host == "r.onliner.by") {
+        startOnlinerRentPlugin(currentExchangeRate, {});
+    } else if(window.location.host == "catalog.onliner.by"){
         startOnlinerCatalogPlugin(currentExchangeRate, {});
     } else {
         startTutByCatalogPlugin(currentExchangeRate, {"tutByConverter": items.tutByConverter});
@@ -24,6 +26,10 @@ chrome.storage.sync.get(["exchangeRate", "tutByConverter"], function(items) {
 });
 
 function startOnlinerCatalogPlugin(currentExchangeRate, settings) {
+    new CatalogOnlinerPlugin(currentExchangeRate, settings).run();
+}
+
+function startOnlinerRentPlugin(currentExchangeRate, settings) {
     new RentOnlinerPlugin(currentExchangeRate, settings).run();
 }
 

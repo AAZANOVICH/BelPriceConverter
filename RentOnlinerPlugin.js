@@ -140,7 +140,7 @@ function RentOnlinerPlugin(current_exchange_rate, settings) {
                 }
             });
 
-
+            $('div.filter__row-title').text('Цена, у.е.');
             PriceFilterUtils.turnOnTooltipster();
         });
 
