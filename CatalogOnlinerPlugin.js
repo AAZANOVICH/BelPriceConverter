@@ -16,6 +16,7 @@ function CatalogOnlinerPlugin(current_exchange_rate, settings) {
 
         function convertCatalogPrice(jNode) {
             var source = jNode.html();
+            source = $(source).text();
 
             // if price range
             if(source.indexOf('-') > 0) {
@@ -194,7 +195,7 @@ function CatalogOnlinerPlugin(current_exchange_rate, settings) {
             } else {
                 var originalPrice = source.trim().split('руб.')[0];
                 var convertedPrice = convertToUSD(originalPrice);
-                jNode.text(convertedPrice + 'у.е.');
+                jNode.text(convertedPrice + ' у.е.');
                 var tooltipText = originalPrice + ' б.р.';
                 tooltipText = replaceAll('руб.','',tooltipText);
                 registerTooltip(jNode, tooltipText);
